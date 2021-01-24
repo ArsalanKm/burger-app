@@ -1,0 +1,33 @@
+import React from "react";
+import styles from "./BuildControls.module.css";
+import BuildControl from "./BuildControl/BuildControl";
+const controls = [
+  { lable: "Salad", type: "salad" },
+  { lable: "Bacon", type: "bacon" },
+  { lable: "Cheese", type: "cheese" },
+  { lable: "Meat", type: "meat" },
+];
+const BuildControls = (props) => {
+  return (
+    <div className={styles.BuildControls}>
+      <p>
+        Current Price :<strong>{props.price}</strong>{" "}
+      </p>
+      {controls.map((item, index) => {
+        return (
+          <BuildControl
+            decrease={() => props.decrease(item.type)}
+            increase={() => props.increase(item.type)}
+            key={index}
+            lable={item.lable}
+          />
+        );
+      })}
+
+      <button disabled={props.purchasable} className={styles.OrderButton}>
+        ORDER NOW
+      </button>
+    </div>
+  );
+};
+export default BuildControls;
