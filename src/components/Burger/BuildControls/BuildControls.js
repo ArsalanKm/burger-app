@@ -11,7 +11,7 @@ const BuildControls = (props) => {
   return (
     <div className={styles.BuildControls}>
       <p>
-        Current Price :<strong>{props.price}</strong>{" "}
+        Current Price :<strong>{props.price.toFixed(2)}</strong>{" "}
       </p>
       {controls.map((item, index) => {
         return (
@@ -20,6 +20,9 @@ const BuildControls = (props) => {
             increase={() => props.increase(item.type)}
             key={index}
             lable={item.lable}
+            ingredients={props.ingredients}
+            type={item.type}
+
           />
         );
       })}
