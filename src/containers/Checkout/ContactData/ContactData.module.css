@@ -1,3 +1,8 @@
+.Message{
+  text-align: center;
+  font-weight: bold;
+  color: chocolate;
+}
 .ContactData {
   margin: 20px auto;
   width: 80%;
