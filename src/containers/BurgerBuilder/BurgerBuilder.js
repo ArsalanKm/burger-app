@@ -7,25 +7,16 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import axios from "../../api/axios-orders";
 import Spinner from "../../components/Spinner/spinner";
 import withErroHandler from "../../hoc/withErrorHandler/withErroHandler";
-import * as actionTypes from "../../store/actions";
-
+import * as actionTypes from "../../store/actions/actionTypes";
+import * as burgerBuilderActions from "../../store/actions/index";
 class BurgerBuilder extends Component {
   state = {
     purchasing: false,
     loading: false,
-    error: false,
   };
   componentDidMount = () => {
-    axios
-      .get(
-        "https://react-burger-app-99550-default-rtdb.firebaseio.com/ingredients.json"
-      )
-      .then((response) => {
-        this.setState({ ingredients: response.data });
-      })
-      .catch((error) => {
-        this.setState({ error: true });
-      });
+    console.log(this.props);
+    this.props.onInitIngredients();
   };
   purchaseContinueHandler = () => {
     this.props.history.push({
@@ -38,11 +29,13 @@ class BurgerBuilder extends Component {
   purchaseHandler = () => [this.setState({ purchasing: true })];
 
   updatePurchasable = (tempIngredients) => {
-    let sum = Object.values(tempIngredients).reduce((sum, el) => {
-      return sum + el;
-    }, 0);
-    // this.setState(this.setState({ purchasable: sum > 0 }));
-    return sum > 0;
+    if (this.props.ings) {
+      let sum = Object.values(tempIngredients).reduce((sum, el) => {
+        return sum + el;
+      }, 0);
+      // this.setState(this.setState({ purchasable: sum > 0 }));
+      return sum > 0;
+    }
   };
 
   // increaseIngrediants = (ingrediant) => {
@@ -65,7 +58,7 @@ class BurgerBuilder extends Component {
   // };
   render() {
     let burger =
-      this.state.error === true ? (
+      this.props.error === true ? (
         <p>ingredients could not be loaded</p>
       ) : (
         <>
@@ -92,7 +85,7 @@ class BurgerBuilder extends Component {
         />
       );
     if (this.state.loading) orderSummaryCheck = <Spinner />;
-    if (this.state.error)
+    if (this.props.error)
       orderSummaryCheck = <p>we could'nt retrive ingredients</p>;
 
     return (
@@ -114,17 +107,16 @@ const mapStateToProps = (state) => {
   return {
     ings: state.ingredients,
     price: state.totalPrice,
+    error: state.error,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     onIngredientAdded: (ingName) =>
-      dispatch({ type: actionTypes.ADD_INGREDIENTS, ingredientName: ingName }),
+      dispatch(burgerBuilderActions.addIngredients(ingName)),
     onIngredientRemoved: (ingName) =>
-      dispatch({
-        type: actionTypes.REMOVE_INGREDIENTS,
-        ingredientName: ingName,
-      }),
+      dispatch(burgerBuilderActions.removeIngredients(ingName)),
+    onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
   };
 };
 
