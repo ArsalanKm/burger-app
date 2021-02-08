@@ -4,17 +4,25 @@ import "./index.css";
 import App from "./App";
 
 import { Provider } from "react-redux";
-import { createStore, combinReducers, compose, applyMiddleware } from "redux";
-import reducer from "./store/reducers/burgerBuilder";
+import { createStore, combineReducers, compose, applyMiddleware } from "redux";
+import burgerReducer from "./store/reducers/burgerBuilder";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import thunk from "redux-thunk";
+import orderReducers from "./store/reducers/order";
 
+const rootReducer = combineReducers({
+  order: orderReducers,
+  burgerBuilder: burgerReducer,
+});
 const composeEnhancers =
   (typeof window !== "undefined" &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   compose;
-const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(
+  rootReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 const logger = (store) => {
   return (next) => {
     return (action) => {
