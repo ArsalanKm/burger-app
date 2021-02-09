@@ -6,10 +6,17 @@ export const authStart = () => {
   };
 };
 
-export const authSuccess = (authData) => {
+export const checkAuthTimeout = (expirationTime) => {
+  return dispatch =>{
+    
+  }
+};
+
+export const authSuccess = (idToken, userId) => {
   return {
     type: actionTypes.AUTH_SUCCESS,
-    authData,
+    idToken: idToken,
+    userId: userId,
   };
 };
 export const authFailed = (error) => {
@@ -35,12 +42,10 @@ export const auth = (email, password, method) => {
     axios
       .post(url, authData)
       .then((res) => {
-        console.log(res);
-        dispatch(authSuccess(res));
+        dispatch(authSuccess(res.data.idToken, res.data.localId));
       })
       .catch((err) => {
-        console.log(err);
-        dispatch(authFailed(err));
+        dispatch(authFailed(err.response.data.error));
       });
   };
 };

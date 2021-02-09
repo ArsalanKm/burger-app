@@ -10,10 +10,11 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import thunk from "redux-thunk";
 import orderReducers from "./store/reducers/order";
-
+import authReducer from "./store/reducers/auth";
 const rootReducer = combineReducers({
   order: orderReducers,
   burgerBuilder: burgerReducer,
+  auth: authReducer,
 });
 const composeEnhancers =
   (typeof window !== "undefined" &&
