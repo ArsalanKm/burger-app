@@ -5,9 +5,7 @@ import ContactData from "./ContactData/ContactData";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 export class Checkout extends Component {
-  componentDidMount() {
-    this.props.onInitPurchase();
-  }
+ 
   checkoutCanceled = () => {
     this.props.history.goBack();
   };
@@ -15,13 +13,15 @@ export class Checkout extends Component {
     this.props.history.replace("/checkout/contact-data");
   };
   render() {
+    let purchasedRedirect=null
     if (this.props.ing) {
-      const purchasedRedirect = this.props.purchased ? (
+      let  purchasedRedirect = this.props.purchased ? (
         <Redirect to="/" />
       ) : null;
     }
     return (
       <div>
+        {purchasedRedirect}
         <CheckoutSummary
           checkoutCanceled={this.checkoutCanceled}
           checkoutContinued={this.checkoutContinued}
@@ -45,9 +45,5 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onInitPurchase: () => dispatch(actions.purchaseInit()),
-  };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+
+export default connect(mapStateToProps)(Checkout);

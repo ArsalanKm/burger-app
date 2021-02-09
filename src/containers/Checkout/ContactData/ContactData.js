@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { compose } from "redux";
 import Button from "../../../components/Button/Button";
 import styles from "./ContactData.module.css";
-import axios from "../../../api/axios-orders";
+
 import Spinner from "../../../components/Spinner/spinner";
-import { withRouter } from "react-router";
+import {  Redirect } from "react-router";
 import Input from "../../../components/Input/Input";
-import withErrorHandler from "../../../hoc/withErrorHandler/withErroHandler";
+
 
 import * as orderActions from "../../../store/actions/index";
 
@@ -124,8 +123,13 @@ export class ContactData extends Component {
     if (this.props.loading) {
       form = <Spinner />;
     }
+    let purchased = null;
+    if (this.props.purchased) {
+      purchased = <Redirect to="/" />;
+    }
     return (
       <div>
+        {purchased}
         <h4 className={styles.Message}>Enter your Contact Data</h4>
         {form}
       </div>
@@ -138,6 +142,7 @@ const mapStateToProps = (state) => {
     ingredients: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPtice,
     loading: state.order.loading,
+    purchased: state.order.purchased,
   };
 };
 
