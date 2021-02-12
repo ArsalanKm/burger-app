@@ -1,8 +1,11 @@
 import React from "react";
 import styles from "./Burger.module.css";
 import BurgerIngredient from "./BurgerIngredients/BurgerIngredient";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 const Burger = (props) => {
   const { ingredients } = props;
+
   let transformedIngredients = Object.keys(ingredients).map((item) => {
     return [...Array(ingredients[item])].map((_, i) => {
       return <BurgerIngredient key={item + i} type={item} />;
@@ -22,5 +25,11 @@ const Burger = (props) => {
       <BurgerIngredient type="bread-bottom" />
     </div>
   );
+};
+
+const mapStateToProps = (state) => {
+  return {
+    ingredients: state.order.ingredients,
+  };
 };
 export default Burger;

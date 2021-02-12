@@ -4,9 +4,8 @@ import Button from "../../../components/Button/Button";
 import styles from "./ContactData.module.css";
 
 import Spinner from "../../../components/Spinner/spinner";
-import {  Redirect } from "react-router";
+import { Redirect } from "react-router";
 import Input from "../../../components/Input/Input";
-
 
 import * as orderActions from "../../../store/actions/index";
 
@@ -79,7 +78,7 @@ export class ContactData extends Component {
       price: this.props.price,
       orderData: formData,
     };
-    this.props.onOrderBurger(order);
+    this.props.onOrderBurger(order, this.props.authToken);
   };
   InputChangedHandler = (event, id) => {
     const form = {
@@ -127,8 +126,16 @@ export class ContactData extends Component {
     if (this.props.purchased) {
       purchased = <Redirect to="/" />;
     }
+    let error = null;
+    if (this.props.error)
+      error = <p className={styles.Error}>{this.props.error}</p>;
+
+    let ingRedirect = null;
+    if (this.props.ingredients === null) ingRedirect = <Redirect to="/" />;
     return (
       <div>
+        {ingRedirect}
+        {error}
         {purchased}
         <h4 className={styles.Message}>Enter your Contact Data</h4>
         {form}
@@ -142,14 +149,16 @@ const mapStateToProps = (state) => {
     ingredients: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPtice,
     loading: state.order.loading,
+    error: state.order.error,
     purchased: state.order.purchased,
+    authToken: state.auth.authToken,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onOrderBurger: (orderData) =>
-      dispatch(orderActions.purchaseBurger(orderData)),
+    onOrderBurger: (orderData, authToken) =>
+      dispatch(orderActions.purchaseBurger(orderData, authToken)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ContactData);

@@ -6,10 +6,17 @@ export const authStart = () => {
   };
 };
 
+export const logOut = () => {
+  return {
+    type: actionTypes.LOG_OUT,
+  };
+};
 export const checkAuthTimeout = (expirationTime) => {
-  return dispatch =>{
-    
-  }
+  return (dispatch) => {
+    setTimeout(() => {
+      dispatch(logOut());
+    }, expirationTime * 1000);
+  };
 };
 
 export const authSuccess = (idToken, userId) => {
@@ -43,9 +50,16 @@ export const auth = (email, password, method) => {
       .post(url, authData)
       .then((res) => {
         dispatch(authSuccess(res.data.idToken, res.data.localId));
+        dispatch(checkAuthTimeout(res.data.expiresIn));
       })
       .catch((err) => {
         dispatch(authFailed(err.response.data.error));
       });
+  };
+};
+export const setAuthRedirectPath = (path) => {
+  return {
+    type: actionTypes.SET_AUTH_REDIRECT_PATH,
+    path: path,
   };
 };

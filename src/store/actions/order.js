@@ -8,7 +8,9 @@ export const purchaseBurgerSuccess = (id, orderData) => {
   };
 };
 
-export const purchaseBurgerFail = (error) => {
+export const purchaseBurgerFail = (
+  error = "unauthorized user please log in"
+) => {
   return {
     type: actionTypes.PURCHASE_BURGER_FAIL,
     error,
@@ -19,11 +21,11 @@ export const purchaseBurgerStart = () => {
     type: actionTypes.PURCHASE_BURGER_START,
   };
 };
-export const purchaseBurger = (orderData) => {
+export const purchaseBurger = (orderData, authToken) => {
   return (dispatch) => {
     dispatch(purchaseBurgerStart());
     axios
-      .post("/orders.json", orderData)
+      .post("/orders.json?auth=" + authToken, orderData)
       .then((response) => {
         console.log("[purchaseBurgerSuccess]", response.data);
         dispatch(purchaseBurgerSuccess(response.data.name, orderData));
@@ -33,7 +35,8 @@ export const purchaseBurger = (orderData) => {
       .catch((error) => {
         // this.setState({ loading: false, purchasing: false });
         // console.log(error);
-        dispatch(purchaseBurgerFail(error));
+      
+        dispatch(purchaseBurgerFail());
       });
   };
 };
@@ -63,11 +66,11 @@ export const fetchOrderStart = () => {
     type: actionTypes.FETCH_ORDER_START,
   };
 };
-export const fetchOrders = () => {
+export const fetchOrders = (authToken) => {
   return (dispatch) => {
     dispatch(fetchOrderStart());
     axios
-      .get("./orders.json")
+      .get("./orders.json?auth=" + authToken)
       .then((res) => {
         dispatch(fetchOrderSuccess(res.data));
       })

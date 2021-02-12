@@ -4,6 +4,7 @@ const initialState = {
   orders: [],
   loading: false,
   purchased: false,
+  error: null,
 };
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -22,6 +23,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        error: action.error,
       };
     case actionTypes.PURCHASE_BURGER_START:
       return {

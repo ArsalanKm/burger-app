@@ -22,7 +22,6 @@ const BuildControls = (props) => {
             lable={item.lable}
             ingredients={props.ingredients}
             type={item.type}
-
           />
         );
       })}
@@ -32,7 +31,7 @@ const BuildControls = (props) => {
         className={styles.OrderButton}
         onClick={props.orderBtnHandler}
       >
-        ORDER NOW
+        {props.isAuthenticated ? "ORDER NOW" : "SIGN UP TO ORDER"}
       </button>
     </div>
   );

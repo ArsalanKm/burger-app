@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
@@ -40,7 +41,10 @@ class Auth extends Component {
     },
     isSignUp: true,
   };
-
+  componentDidMount() {
+    if (!this.props.building && this.props.authRedirect !== "/")
+      this.props.onsSetAuthRedirect();
+  }
   switchSignInHandler = () => {
     this.setState((prevState) => {
       return {
@@ -144,9 +148,14 @@ class Auth extends Component {
       errorMessage = (
         <p className={classes.Error}>{this.props.error.message}</p>
       );
+    let authRedirect = null;
+    if (this.props.isAuthenticated) {
+      authRedirect = <Redirect to={this.props.authRedirect} />;
+    }
 
     return (
       <div className={classes.Auth}>
+        {authRedirect}
         {errorMessage}
         {page}
       </div>
@@ -157,12 +166,16 @@ const mapStateToProps = (state) => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
+    isAuthenticated: state.auth.token ? true : false,
+    building: state.burgerBuilder.building,
+    authRedirect: state.auth.authRedirect,
   };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
     onAuth: (email, password, method) =>
       dispatch(actions.auth(email, password, method)),
+    onsSetAuthRedirect: () => dispatch(actions.setAuthRedirectPath("/")),
   };
 };
 
