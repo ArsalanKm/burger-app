@@ -12,7 +12,6 @@ export const purchaseBurgerFail = (
   
   error 
 ) => {
-  console.log('[error]' ,error)
   return {
     
     type: actionTypes.PURCHASE_BURGER_FAIL,
@@ -30,7 +29,6 @@ export const purchaseBurger = (orderData, authToken) => {
     axios
       .post("/orders.json?auth=" + authToken, orderData)
       .then((response) => {
-        console.log("[purchaseBurgerSuccess]", response.data);
         dispatch(purchaseBurgerSuccess(response.data.name, orderData));
         // this.setState({ loading: false, purchasing: false });
         // this.props.history.push("/");

@@ -10,7 +10,6 @@ class Layout extends Component {
     this.setState({ show: false });
   };
   toggleButtonHandler = () => {
-    console.log("toggle");
     this.setState((prevState) => {
       return { show: !prevState.show };
     });

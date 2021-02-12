@@ -7,7 +7,6 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 import axios from "../../api/axios-orders";
 import Spinner from "../../components/Spinner/spinner";
 import withErroHandler from "../../hoc/withErrorHandler/withErroHandler";
-import * as actionTypes from "../../store/actions/actionTypes";
 import * as burgerBuilderActions from "../../store/actions/index";
 class BurgerBuilder extends Component {
   state = {
@@ -15,7 +14,6 @@ class BurgerBuilder extends Component {
     loading: false,
   };
   componentDidMount = () => {
-    console.log(this.props);
     this.props.onInitIngredients();
   };
   purchaseContinueHandler = () => {

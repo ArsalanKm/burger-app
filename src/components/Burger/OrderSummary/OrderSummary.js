@@ -1,9 +1,7 @@
 import React from "react";
 import Button from "../../Button/Button";
 class OrderSummary extends React.Component {
-  componentWillUpdate(){
-    console.log('order sunnary update ')
-  }
+  
   render() {
    
     let { ingredients } = this.props;

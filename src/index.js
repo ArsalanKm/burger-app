@@ -28,9 +28,8 @@ const store = createStore(
 const logger = (store) => {
   return (next) => {
     return (action) => {
-      console.log("Middleware Dispatching", action);
       const result = next(action);
-      console.log("MiddleWare next state,", store.getState);
+
       return result;
     };
   };

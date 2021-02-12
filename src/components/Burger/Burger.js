@@ -1,8 +1,7 @@
 import React from "react";
 import styles from "./Burger.module.css";
 import BurgerIngredient from "./BurgerIngredients/BurgerIngredient";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+
 const Burger = (props) => {
   const { ingredients } = props;
 
@@ -27,9 +26,5 @@ const Burger = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    ingredients: state.order.ingredients,
-  };
-};
+
 export default Burger;
