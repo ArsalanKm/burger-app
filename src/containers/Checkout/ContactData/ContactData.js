@@ -77,6 +77,7 @@ export class ContactData extends Component {
       ingredients: this.props.ingredients,
       price: this.props.price,
       orderData: formData,
+      userId: this.props.userId,
     };
     this.props.onOrderBurger(order, this.props.authToken);
   };
@@ -151,7 +152,8 @@ const mapStateToProps = (state) => {
     loading: state.order.loading,
     error: state.order.error,
     purchased: state.order.purchased,
-    authToken: state.auth.authToken,
+    authToken: state.auth.token,
+    userId: state.auth.userId,
   };
 };
 
