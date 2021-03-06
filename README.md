@@ -9,3 +9,4 @@ Redux-Thunk,
 CSS_MODULES,
 FireBase
 
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=ArsalanKm)](https://github.com/anuraghazra/github-readme-stats)
